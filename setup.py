@@ -20,5 +20,5 @@ setup(
     author='Sathwik',
     author_email='sathwikmethari@gmail.com',
     packages=find_packages(),
-    install_requires=get_requirements('D:\ML_ENV\requirements.txt')
+    install_requires=get_requirement('requirements.txt')
 )
