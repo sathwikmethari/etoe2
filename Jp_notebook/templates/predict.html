@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beans Classifier1</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('https://images.squarespace-cdn.com/content/v1/59f0e6beace8641044d76e9c/1665415220691-VXVP42NA5A65QAAF62KR/Social+Beans.jpeg?format=1500w');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        h1 {
+            letter-spacing:0;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 1.875rem;
+            font-weight: 800;
+            line-height: 1.23333;
+            text-align: center;
+            background-color: peachpuff;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .form-group label {
+            width: 150px; 
+            margin-right: 10px;
+            text-align: center;
+            background-color: rgb(231, 163, 163);
+            border-radius: 5px;
+            padding: 5px;
+            font-family: Verdana;
+        }
+        .form-group input[type="text"] {
+            border-radius: 5px;
+            border-collapse: collapse;
+            padding: 5px;
+            flex:1;
+            
+        }
+        input[type='submit'] {
+            margin-top: 20px;
+            padding: 8px 20px;
+            font-size: 1em;
+            display: block;
+            margin-top: 8px;
+            margin-right: auto;
+            float:right;
+            border-radius: 5px;
+            border-collapse: collapse;
+        }
+        .main-content {
+            width: 35%;
+            float: left;
+        }
+        .sidebar1 {
+            width: 55%;
+            float: right;
+            background-color: white;
+            padding: 0px 20px 0px 20px;
+            border-radius: 4px;
+            
+        }
+        .sidebar1 h2 {
+            text-align: center;
+            background-color: lightgray;
+            border-radius: 4px;
+            padding: 5px 10px 0px 10px;
+        }
+        .sidebar1_2 {
+            height: 190x;
+            text-align: left;
+            background-color: rgb(234, 227, 227);
+            border-radius: 4px;
+            padding: 2px;
+        }
+        td  {
+            border:1px solid black;
+        }
+        .sidebar1_2 table{
+            color:rgb(43, 18, 43);
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            margin:5px 20px 5px 8px;
+            float:center;
+            width:98%;
+            border:2px solid black;
+            border-collapse: collapse;
+        }
+        .sidebar2 ul {
+            width: 55%;
+            height:170px;
+            float: right;
+            background-color: rgb(239, 228, 228);
+            padding: 0px 20px 0px 20px;
+            border-radius: 5px;
+            margin-top:10px;
+            list-style-type: none;
+        }
+        .sidebar2 p{
+            margin-top:3px;
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size:45px;
+            font-weight: bolder;
+        }
+        #li1 {
+            font-size:40px;
+            color:black;
+            display:block;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+        }
+        #li2 {
+            font-size: 18px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: red;
+            display:inline-flex;
+            margin-top:10px;
+            
+        }
+        #output {
+            font-size: 60px;
+            color: rgb(140, 42, 159);
+            font-weight: bolder;
+            text-align: center;
+            margin-top: 0%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Beans Classifier</h1>
+    <div class="main-content">
+        <form action="{{url_for('predict')}}" method="post">
+            {% for i in range(l) %}
+            <div class="form-group">
+                <label for="{{columns[i]}}">{{columns[i]}}</label>
+                <input type="text" name="{{columns[i]}}">
+            </div>
+            {% endfor %}
+            <input type='submit' id="b1" value="Submit">
+        </form>
+    </div>
+    <aside class="sidebar1">
+        <h2>Information</h2>
+        <p>Welcome to the Beans Classifier. Please enter values for each type of varible to predict the Bean Class.
+        <p>The ranges of variables are given below<br>
+        <div class="sidebar1_2">
+        <table>
+        <tr>
+            <td><b>Area :</b> 20420.0 - 98399.0         </td> <td><b>Perimeter :</b> 524.0 - 1386.0</td>
+        </tr>
+        <tr>
+            <td><b>MajorAxisLength :</b> 183.0 - 561.0 </td> <td><b>MinorAxisLength :</b> 122.51 - 277.520</td>
+        </tr>
+        <tr>
+            <td><b>AspectRation :</b> 1.0249- 2.119    </td> <td><b>Eccentricity :</b> 0.5742 - 0.9114</td>
+        </tr>
+        <tr>
+            <td><b>ConvexArea :</b> 20684.0 - 100632.0 </td> <td><b>EquivDiameter :</b> 161.24 - 370.67</td>
+        </tr>
+        <tr>
+            <td><b>Extent :</b>  0.6165 - 0.8661       </td> <td><b>Solidity :</b> 0.9791 - 0.9947</td>
+        </tr>
+        <tr>
+            <td><b>Roundness :</b> 0.7051 - 0.9907     </td> <td><b>Compactness :</b> 0.6549 - 0.9419</td>
+        </tr>
+        <tr>
+            <td><b>ShapeFactor1 :</b> 0.003843 - 0.009328 </td><td>   <b>ShapeFactor2 :</b> 0.000564 - 0.00366</td>
+        </tr>
+        <tr>
+            <td><b>ShapeFactor3 :</b> 0.4103 - 0.8677     </td> <td>    <b>ShapeFactor4 :</b> 0.9874 - 0.99973</td>
+        </tr>
+        </table>
+        </div>
+        </p>
+
+    </aside>
+    <aside class="sidebar2">
+        <ul>{% if errors %}
+            <div class="error">
+                <li id="li1">Enter Valid Number for:</li>
+                    {% for error in errors %}
+                        <li id="li2">{{ error }}</li>
+                    {% endfor %}
+                
+            {% else %}
+            <p>THE BEAN'S CLASS IS :</p>
+            <li id="output">"{{output}}"</li>
+            {% endif %} 
+        </ul>
+    </aside>
+</body>
+</html>
