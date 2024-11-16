@@ -8,8 +8,8 @@ from src.utils import sampler_utils
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
 
-from src.components.data_transformation import DataTransformation
-from src.components.data_transformation import DataTransformationConfig
+from src.components.data_transformation import DataTransformation,DataTransformationConfig
+from src.components.model_trainer import ModelTrainerConfig,Model_trainer
 
 @dataclass
 class Create_csv:
@@ -23,7 +23,7 @@ class DataIngestion:
     def Intiating_ingestion(self):
         logging.info("Started Data Ingestion")
         try:
-            df=pd.read_excel('Jp_notebook\Dry_Bean_Dataset.xlsx')
+            df=pd.read_excel('Jp_notebook/Dry_Bean_Dataset.xlsx')
             logging.info("Read the data into a Pandas DataFrame")
             #print(f'df before samp {len(df)}')
 
@@ -52,4 +52,6 @@ if __name__=='__main__':
     csvs=DataIngestion()
     train_data,test_data=csvs.Intiating_ingestion()
     data_transformation=DataTransformation()
-    data_transformation.initiate_data_tranforming(train_data,test_data)
+    train_arr,test_arr,_,_,_=data_transformation.initiate_data_tranforming(train_data,test_data)
+    modeltrainer=Model_trainer()
+    print(modeltrainer.initate_model_training(train_arr,test_arr))

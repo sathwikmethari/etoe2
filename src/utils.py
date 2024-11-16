@@ -4,6 +4,7 @@ import numpy as np
 import dill
 from imblearn.over_sampling import SMOTE
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
 
 from src.exceptions import CustomException
 
@@ -57,3 +58,28 @@ def object_saver(path,obj):
             dill.dump(obj,file_obj)
     except Exception as e:
         raise CustomException(e,sys)
+    
+def evaluate_model(x_train,y_train,x_test,y_test,models_dict):
+    try:
+        report={}
+        for i in range(len(list(models_dict))):
+            model=list(models_dict.values())[i]
+            model.fit(x_train,y_train)
+
+            y_train_pred=model.predict(x_train)
+            y_test_pred=model.predict(x_test)
+
+            train_acc=accuracy_score(y_train,y_train_pred)
+            #train_f1=f1_score(y_train,y_train_pred,average='weighted')
+            #train_prec=precision_score(y_train,y_train_pred,average='weighted')
+            #train_recall=recall_score(y_train,y_train_pred,average='weighted')
+
+            test_acc=accuracy_score(y_test,y_test_pred)
+            #test_f1=f1_score(y_test,y_test_pred,average='weighted')
+            #test_prec=precision_score(y_test,y_test_pred,average='weighted')
+            #test_recall=recall_score(y_test,y_test_pred,average='weighted')
+
+            report[list(models_dict.keys())[i]]=[test_acc]
+    except Exception as e:
+        raise CustomException(e,sys)
+    return report
