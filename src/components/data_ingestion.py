@@ -52,6 +52,6 @@ if __name__=='__main__':
     csvs=DataIngestion()
     train_data,test_data=csvs.Intiating_ingestion()
     data_transformation=DataTransformation()
-    train_arr,test_arr,_,_,_=data_transformation.initiate_data_tranforming(train_data,test_data)
+    x_train_tranformed,y_train_tranformed,x_test_tranformed,y_test_tranformed,_,_,_=data_transformation.initiate_data_tranforming(train_data,test_data)
     modeltrainer=Model_trainer()
-    print(modeltrainer.initate_model_training(train_arr,test_arr))
+    print(modeltrainer.initate_model_training(x_train_tranformed,y_train_tranformed,x_test_tranformed,y_test_tranformed))

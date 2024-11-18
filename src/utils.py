@@ -61,7 +61,7 @@ def object_saver(path,obj):
     
 def evaluate_model(x_train,y_train,x_test,y_test,models_dict):
     try:
-        report={}
+        report={}       #initializing an empty dict for storing accuracies
         for i in range(len(list(models_dict))):
             model=list(models_dict.values())[i]
             model.fit(x_train,y_train)
@@ -83,3 +83,12 @@ def evaluate_model(x_train,y_train,x_test,y_test,models_dict):
     except Exception as e:
         raise CustomException(e,sys)
     return report
+
+def object_loader(file_path):
+    try:
+        with open(file_path,'rb') as file_obj:
+            obj=dill.load(file_obj)
+            #print('object loaded',type(obj))
+            return obj
+    except Exception as e:
+        raise CustomException 

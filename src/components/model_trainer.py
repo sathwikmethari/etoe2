@@ -24,12 +24,13 @@ class Model_trainer:
     def __init__(self):
         self.model_trainer_config=ModelTrainerConfig()
 
-    def initate_model_training(self,train_arr,test_arr):
+    def initate_model_training(self,x_train_tranformed,y_train_tranformed,x_test_tranformed,y_test_tranformed):
         try:
-            logging.info("")
-            X_train,X_test=train_arr[:,:-1],test_arr[:,:-1]
-            y_train,y_test=train_arr[:,-1],test_arr[:,-1]
+            logging.info("Splitting train_arr & test_arr into dependent and independent varibles")
+            X_train,X_test=x_train_tranformed,x_test_tranformed
+            y_train,y_test=y_train_tranformed,y_test_tranformed
             
+            logging.info("Created a models dict for training")
             models={
                 "LogisticRegression":LogisticRegression(),
                 "SupportVector":SVC(),
@@ -41,14 +42,18 @@ class Model_trainer:
                 "GradientBoost":GradientBoostingClassifier(),
                 "XgbClassifier":XGBClassifier()
             }
-
+            logging.info("Calling evaluate_model f'n from utils for training")
             model_report :dict=evaluate_model(X_train,y_train,X_test,y_test,models)
 
-            best_score=max(sorted(model_report.values()))
+            best_score=max(sorted(model_report.values()))   #sorting based on test_accuracies
 
-            best_model=list(model_report.keys())[
+            best_model_name=list(model_report.keys())[
                 list(model_report.values()).index(best_score)]
             
+            best_model=models[best_model_name]
+            
+            logging.info("Saved best model as pkl file using object_saver f'n")
+            print(f"model is of type{type(best_model)}")
             object_saver(
                 self.model_trainer_config.trainer_file_path,best_model
             )
@@ -56,6 +61,6 @@ class Model_trainer:
         except Exception as e:
             raise CustomException(e,sys)
         
-        return model_report[best_model]         #returns training accuracy of best model
+        return model_report[best_model_name]         #returns training accuracy of best model
 
 

@@ -6,4 +6,5 @@ xgboost
 imblearn
 openpyxl
 dill
+flask
 #-e .

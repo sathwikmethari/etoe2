@@ -46,24 +46,18 @@ class DataTransformation:
             y_train_tranformed=encoder.fit_transform(y_train)
             y_test_tranformed=encoder.transform(y_test)
 
-            x_train_arr=np.c_[
-                x_train_tranformed,y_train_tranformed
-                ]
-            x_test_arr=np.c_[
-                x_test_tranformed,y_test_tranformed
-                ]
-
+                
+            logging.info("Using object_saver f'n to save neccessary preprocessing objects")
             object_saver(self.data_transformation_config.scaler_file_path,scaler)
             object_saver(self.data_transformation_config.pca_file_path,pca)
             object_saver(self.data_transformation_config.encoder_file_path,encoder)
 
             return (
-                x_train_arr,x_test_arr,
+                x_train_tranformed,y_train_tranformed,x_test_tranformed,y_test_tranformed,
                 self.data_transformation_config.scaler_file_path,
                 self.data_transformation_config.pca_file_path,
                 self.data_transformation_config.encoder_file_path
             )
-
 
         except Exception as e:
             raise CustomException(e,sys)
